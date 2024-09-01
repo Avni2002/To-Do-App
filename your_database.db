@@ -1,0 +1,19 @@
+-- Create a new table with corrected schema
+CREATE TABLE task_new (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    content TEXT NOT NULL,
+    priority TEXT NOT NULL DEFAULT 'Medium',
+    due_date TEXT,  -- Store dates as text
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    category TEXT
+);
+
+-- Copy data from old table
+INSERT INTO task_new (id, content, priority, due_date, date_created, category)
+SELECT id, content, priority, due_date, date_created, category FROM task;
+
+-- Drop old table
+DROP TABLE task;
+
+-- Rename new table to old table name
+ALTER TABLE task_new RENAME TO task;
